@@ -1,0 +1,6 @@
+adafruit-circuitpython-servokit
+adafruit-circuitpython-pca9685
+RPi.GPIO
+fastapi
+uvicorn
+python-multipart

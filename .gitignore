@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+venv/
+.env
+*.wav
+*.mp3
+!sounds/.gitkeep
+uploads/*
+!uploads/.gitkeep
+laptop/tts_cache/
+laptop/answer.mp3
+laptop/wait.mp3
+laptop/voice_ai_command.wav
+.DS_Store

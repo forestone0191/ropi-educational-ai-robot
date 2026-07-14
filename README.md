@@ -79,3 +79,20 @@ AI가 뭐야?
 ```
 
 마지막 `앞으로 가`에서 로피 앞 10cm 이내에 물체를 놓으면 자동 정지합니다.
+
+## License / 사용권
+
+This project is not open source.
+
+Ropi is publicly visible for educational reference, but commercial use, redistribution,
+manufacturing, paid classes, derivative kits, and institutional use are prohibited without
+prior written permission.
+
+See `LICENSE` and `LICENSE-KO.md` for details.
+
+본 프로젝트는 오픈소스가 아닙니다.
+
+Ropi는 교육 참고 목적으로 공개되어 있으나, 저작권자의 사전 서면 허가 없이 상업적 사용,
+재배포, 교구 제작·판매, 유료 수업 운영, 기관 교육 사용, 파생 키트 제작을 할 수 없습니다.
+
+자세한 내용은 `LICENSE` 및 `LICENSE-KO.md`를 확인하세요.

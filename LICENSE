@@ -1,9 +1,40 @@
-MIT License
+Ropi Educational Robot Proprietary License
 
-Copyright (c) 2026
+Copyright (c) 2026 Seokil Lim / Seshin AI Robot Academy.
+All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files, to deal in the Software
-without restriction.
+This project, including but not limited to software source code, hardware documentation,
+robot design, wiring documentation, assembly guides, educational materials, and related
+media, is the intellectual property of the copyright holder.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+Permission is granted only for limited educational viewing and personal study purposes.
+
+You may:
+- View this repository for learning and reference.
+- Download and use the materials only during an authorized Ropi educational camp,
+  class, workshop, or program conducted or approved by the copyright holder.
+- Modify the code or documentation only for personal learning during an authorized
+  educational activity.
+
+You may not, without prior written permission from the copyright holder:
+- Use this project, in whole or in part, for commercial purposes.
+- Sell, rent, lease, sublicense, or distribute Ropi-based educational kits.
+- Use this project to operate paid classes, camps, academies, workshops, or training programs.
+- Manufacture, reproduce, or sell robots, kits, printed parts, or derivative products
+  based on this project.
+- Redistribute modified or unmodified copies of the software, hardware design,
+  documentation, or educational materials.
+- Claim this project, robot design, curriculum, or documentation as your own work.
+- Remove copyright notices, attribution, or license terms.
+- Register patents, utility models, designs, trademarks, or other intellectual property
+  based on this project without permission.
+
+Commercial use, institutional use, redistribution, manufacturing, or derivative product
+development requires a separate written license agreement.
+
+This project is provided "AS IS", without warranty of any kind. The copyright holder is
+not responsible for any damage, injury, malfunction, data loss, financial loss, or legal
+issue arising from the use, modification, assembly, or operation of this project.
+
+For licensing, commercial use, partnership, or educational program inquiries, contact
+the copyright holder.

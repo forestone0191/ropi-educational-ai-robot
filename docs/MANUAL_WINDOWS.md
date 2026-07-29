@@ -7,7 +7,10 @@
 
 > **로봇을 움직이기만 할 거라면 설치가 필요 없는 방법이 있습니다.**
 > [MANUAL_WINDOWS_POWERSHELL.md](MANUAL_WINDOWS_POWERSHELL.md) 를 보세요. 훨씬 짧습니다.
-> 이 문서(WSL)는 **코드를 직접 고쳐서 로봇에 보내거나, 음성 AI를 노트북에서 돌릴 때** 필요합니다.
+> 이 문서(WSL)는 **코드를 직접 고쳐서 로봇에 보낼 때** 쓰면 편합니다.
+
+> **음성 AI는 WSL로 하지 마세요.** WSL은 마이크에 접근할 수 없습니다.
+> [MANUAL_VOICE_POWERSHELL.md](MANUAL_VOICE_POWERSHELL.md) 를 보세요.
 
 ---
 
@@ -320,10 +323,11 @@ ModuleNotFoundError: No module named 'adafruit_servokit'
 PowerShell에서 바로 `ssh stone0191@ropi01.local` 하면 접속됩니다.
 WSL 설치는 관리자 권한과 재부팅이 필요해서, 학교 노트북에서는 막혀 있을 수 있습니다.
 
-WSL이 필요한 경우는 이렇습니다.
+WSL이 편한 경우는 **학생들이 코드를 직접 고쳐서 로봇에 보내게 할 때**입니다 (`git`, `scp`).
 
-- 학생들이 코드를 직접 고쳐서 로봇에 보내게 할 때 (`git`, `scp` 사용)
-- 음성 AI 클라이언트를 노트북에서 돌릴 때 (파이썬 환경 필요)
+**음성 AI는 WSL로 하면 안 됩니다.** WSL2 는 마이크에 접근할 수 없어서,
+음성 입력이 핵심인 프로그램이 아예 동작하지 않습니다.
+윈도우 파이썬으로 직접 돌려야 합니다 → [MANUAL_VOICE_POWERSHELL.md](MANUAL_VOICE_POWERSHELL.md)
 
 **미리 준비해 두시면 좋은 것**
 

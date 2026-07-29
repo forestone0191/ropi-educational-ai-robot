@@ -322,9 +322,8 @@ PowerShell 창을 **마우스로 한 번 클릭**해서 창을 선택한 다음 
 - 와이파이 이름·비밀번호를 크게 적어 칠판에 붙여두기
 - 수업 전에 8개 커넥터가 다 꽂혔는지 확인 (`ropi_scan.py`)
 
-**WSL이 필요한 경우는 따로 있습니다.**
+**말로 조종하려면** → [MANUAL_VOICE_POWERSHELL.md](MANUAL_VOICE_POWERSHELL.md)
+음성 AI 도 PowerShell 로 합니다. **WSL 은 마이크에 접근할 수 없어서 쓰면 안 됩니다.**
 
-- 학생들이 코드를 직접 고쳐서 로봇에 보내게 할 때 (`git`, `scp`)
-- 음성 AI 클라이언트를 노트북에서 돌릴 때 (파이썬 환경 필요)
-
-그럴 때는 [MANUAL_WINDOWS.md](MANUAL_WINDOWS.md) 를 쓰세요.
+**학생들이 코드를 직접 고쳐서 로봇에 보내게 할 거라면** (`git`, `scp`)
+[MANUAL_WINDOWS.md](MANUAL_WINDOWS.md) 의 WSL 방식이 편합니다.

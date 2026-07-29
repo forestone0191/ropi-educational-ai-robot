@@ -9,7 +9,11 @@ import numpy as np
 from scipy.io.wavfile import write
 from openai import OpenAI
 
-ROPI_SERVER_URL = "http://192.168.219.111:8000"
+# 로봇 주소. 학생마다 로봇이 달라서 코드를 고치지 않고 환경변수로 넘긴다.
+#   윈도우 PowerShell:  $env:ROPI_IP = "192.168.0.64"
+#   맥 / 리눅스:        export ROPI_IP=192.168.0.64
+ROPI_IP = os.getenv("ROPI_IP", "192.168.0.64")
+ROPI_SERVER_URL = os.getenv("ROPI_SERVER_URL", f"http://{ROPI_IP}:8000")
 
 MIC_DEVICE_INDEX = None
 MIC_CHANNELS = 1

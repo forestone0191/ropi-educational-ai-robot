@@ -71,6 +71,9 @@ winget install Python.Python.3.12
 
 ## 2단계 — 코드 받기 (처음 한 번만)
 
+> **깃허브 계정을 만들 필요 없습니다.** 공개된 코드는 누구나 그냥 받을 수 있습니다.
+> 로그인 화면도 안 뜹니다. 계정이 필요한 건 코드를 **올릴** 때뿐입니다.
+
 ```powershell
 cd ~
 git clone https://github.com/forestone0191/ropi-educational-ai-robot.git

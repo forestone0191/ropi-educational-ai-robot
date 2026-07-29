@@ -16,7 +16,30 @@ sudo raspi-config nonint do_i2c 0
 sudo raspi-config nonint do_wifi_country KR 2>/dev/null || true
 
 echo "=== 2. 패키지 설치 ==="
+# 갓 부팅한 파이는 packagekitd 가 자동 업데이트를 돌리느라 apt 를 잡고 있다.
+# 그 상태에서 apt 를 부르면 lock 에러로 죽는다. 끝날 때까지 기다린다.
+wait_for_apt() {
+    local waited=0
+    while sudo fuser /var/lib/dpkg/lock-frontend \
+                     /var/lib/apt/lists/lock >/dev/null 2>&1; do
+        if [ "$waited" -eq 0 ]; then
+            echo "  다른 프로그램이 apt 를 쓰는 중입니다. 기다립니다..."
+        fi
+        if [ "$waited" -ge 120 ]; then
+            echo "  2분이 지나 자동 업데이트를 중지시킵니다."
+            sudo systemctl stop packagekit 2>/dev/null || true
+            sudo pkill -x packagekitd 2>/dev/null || true
+            sleep 3
+            break
+        fi
+        sleep 5
+        waited=$((waited + 5))
+    done
+}
+
+wait_for_apt
 sudo apt-get update -qq
+wait_for_apt
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
     i2c-tools python3-venv python3-full
 
@@ -28,11 +51,25 @@ fi
 echo "  /dev/i2c-1 OK"
 
 echo "=== 4. PCA9685 확인 ==="
-FOUND=$(/usr/sbin/i2cdetect -y 1 | tail -n +2 | cut -d: -f2- \
-        | tr ' ' '\n' | grep -E '^40$' || true)
+# -r 을 붙여 '읽기'로 두드린다.
+# 기본 방식(빈 쓰기)에는 응답하지 않는 PCA9685 개체가 있어서,
+# 배선이 멀쩡한데도 없는 것으로 나오는 일이 있었다.
+scan_i2c() {
+    /usr/sbin/i2cdetect -y -r 1 | tail -n +2 | cut -d: -f2- \
+        | tr ' ' '\n' | grep -E '^40$' || true
+}
+FOUND=$(scan_i2c)
 if [ -z "$FOUND" ]; then
-    echo "  !! 0x40 이 안 잡힙니다. PCA9685 배선(SDA/SCL/전원)을 확인하세요."
-    /usr/sbin/i2cdetect -y 1
+    echo "  0x40 이 안 잡혀 한 번 더 시도합니다..."
+    sleep 2
+    FOUND=$(scan_i2c)
+fi
+if [ -z "$FOUND" ]; then
+    echo "  !! PCA9685 를 못 찾았습니다. 아래를 확인하세요."
+    echo "     - VCC (로직 전원) 가 꽂혀 있는지. V+ (서보 전원) 와 다른 핀이다."
+    echo "     - SDA(파이 3번핀) / SCL(파이 5번핀) 이 바뀌지 않았는지"
+    echo "     - GND 가 공통으로 연결되어 있는지"
+    /usr/sbin/i2cdetect -y -r 1
     exit 1
 fi
 echo "  PCA9685 (0x40) 감지됨"

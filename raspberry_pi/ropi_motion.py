@@ -29,20 +29,44 @@ RIGHT_SHOULDER = 5
 LEFT_WRIST = 6      # 왼손
 RIGHT_WRIST = 7     # 오른손
 
-WHEELS = [LEFT_WHEEL, RIGHT_WHEEL]
-SHOULDERS = [LEFT_SHOULDER, RIGHT_SHOULDER]
-WRISTS = [LEFT_WRIST, RIGHT_WRIST]
-ARMS = SHOULDERS + WRISTS
-ALL_DRIVEN = WHEELS + ARMS      # 골반은 여기에 넣지 않는다
+# 채널이 어느 관절인지는 로봇마다 다를 수 있다.
+# (예: 팔이 4~7 이 아니라 8~11 에 꽂힌 개체가 있었다)
+# 그래서 아래 값들은 ropi_drive.json 으로 덮어쓸 수 있게 해뒀다.
+#   python3 ropi_motion.py channels 8 9 10 11
+CHANNEL_KEYS = ("LEFT_WHEEL", "RIGHT_WHEEL",
+                "LEFT_SHOULDER", "RIGHT_SHOULDER",
+                "LEFT_WRIST", "RIGHT_WRIST")
 
-CENTER = {ch: 90 for ch in range(8)}
-# 좌우가 마주보게 달려 있으므로 부호를 뒤집어야 같은 방향으로 움직인다.
-DIRECTION = {
-    LEFT_HIP: 1, RIGHT_HIP: -1,
-    LEFT_WHEEL: 1, RIGHT_WHEEL: -1,
-    LEFT_SHOULDER: 1, RIGHT_SHOULDER: 1,   # CH5 는 반대로 달려 있어 부호를 맞췄다
-    LEFT_WRIST: 1, RIGHT_WRIST: 1,     # 오른손은 반대로 달려 있어 부호를 맞췄다
+# 관절별 회전 부호. 좌우가 마주보게 달린 곳은 부호를 뒤집어야 같이 움직인다.
+DIR_SIGNS = {
+    "LEFT_WHEEL": 1, "RIGHT_WHEEL": -1,
+    "LEFT_SHOULDER": 1, "RIGHT_SHOULDER": 1,
+    "LEFT_WRIST": 1, "RIGHT_WRIST": 1,
 }
+
+WHEELS = SHOULDERS = WRISTS = ARMS = ALL_DRIVEN = []
+CENTER = {}
+DIRECTION = {}
+
+
+def rebuild():
+    """채널 번호가 바뀌었을 때 파생 목록을 다시 만든다."""
+    global WHEELS, SHOULDERS, WRISTS, ARMS, ALL_DRIVEN, CENTER, DIRECTION
+    g = globals()
+
+    WHEELS = [g["LEFT_WHEEL"], g["RIGHT_WHEEL"]]
+    SHOULDERS = [g["LEFT_SHOULDER"], g["RIGHT_SHOULDER"]]
+    WRISTS = [g["LEFT_WRIST"], g["RIGHT_WRIST"]]
+    ARMS = SHOULDERS + WRISTS
+    ALL_DRIVEN = WHEELS + ARMS          # 골반은 고정이라 여기에 넣지 않는다
+
+    CENTER = {ch: 90 for ch in range(16)}
+    DIRECTION = {ch: 1 for ch in range(16)}
+    for key, sign in DIR_SIGNS.items():
+        DIRECTION[g[key]] = sign
+
+
+rebuild()
 
 # --- 주행 설정 ----------------------------------------------------
 SPEED = 100         # 주행 속도 0~100 (%). 100 이 펄스 범위의 끝이다.
@@ -85,7 +109,7 @@ SAVED_KEYS = ("SPEED", "TURN_RATIO", "WHEEL_FLIP", "LEFT_FLIP", "RIGHT_FLIP",
               "LEFT_TRIM", "RIGHT_TRIM",
               "ATTACK_SPEED", "ATTACK_TIME", "ATTACK_FLIP",
               "WAVE_SPEED", "WAVE_LIFT", "WAVE_TIME", "WAVE_COUNT",
-              "WAVE_FLIP")
+              "WAVE_FLIP") + CHANNEL_KEYS
 
 
 def load_settings():
@@ -103,6 +127,7 @@ def load_settings():
     for key in SAVED_KEYS:
         if key in data:
             g[key] = data[key]
+    rebuild()      # 채널이 바뀌었을 수 있으므로 파생 목록을 다시 만든다
 
 
 def save_settings():
@@ -342,10 +367,42 @@ def main():
         print("  주행: forward(walk) back left right spinleft spinright stop")
         print("  공격: attack attackleft attackright combo")
         print("  인사: wave waveleft waveright")
-        print("  설정: speed <15~90>")
+        print("  설정: speed <20~100>")
+        print("        channels <왼어깨> <오른어깨> <왼손> <오른손>")
         return
 
     command = sys.argv[1].lower()
+
+    if command == "channels":
+        # 팔이 꽂힌 채널이 로봇마다 다르다. 코드를 고치지 않고 여기서 바꾼다.
+        #   python3 ropi_motion.py channels 8 9 10 11
+        #   순서: 왼어깨 오른어깨 왼손 오른손
+        if len(sys.argv) < 6:
+            print("현재 채널:")
+            print("  바퀴   왼 CH%d  오른 CH%d" % (LEFT_WHEEL, RIGHT_WHEEL))
+            print("  어깨   왼 CH%d  오른 CH%d" % (LEFT_SHOULDER, RIGHT_SHOULDER))
+            print("  손     왼 CH%d  오른 CH%d" % (LEFT_WRIST, RIGHT_WRIST))
+            print("바꾸려면: channels <왼어깨> <오른어깨> <왼손> <오른손>")
+            return
+        try:
+            values = [int(v) for v in sys.argv[2:6]]
+        except ValueError:
+            print("채널은 숫자여야 합니다:", sys.argv[2:6])
+            return
+        if any(v < 0 or v > 15 for v in values):
+            print("채널은 0~15 사이여야 합니다:", values)
+            return
+        if len(set(values)) != 4:
+            print("채널이 겹칩니다:", values)
+            return
+        g = globals()
+        for key, value in zip(("LEFT_SHOULDER", "RIGHT_SHOULDER",
+                               "LEFT_WRIST", "RIGHT_WRIST"), values):
+            g[key] = value
+        rebuild()
+        save_settings()
+        print("어깨 CH%d,CH%d / 손 CH%d,CH%d 로 저장했습니다" % tuple(values))
+        return
 
     if command == "speed":
         if len(sys.argv) < 3:

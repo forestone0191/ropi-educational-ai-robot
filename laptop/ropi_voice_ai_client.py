@@ -9,10 +9,10 @@ import numpy as np
 from scipy.io.wavfile import write
 from openai import OpenAI
 
-ROPI_SERVER_URL = "http://192.168.219.127:8000"
+ROPI_SERVER_URL = "http://192.168.219.111:8000"
 
-MIC_DEVICE_INDEX = 5
-MIC_CHANNELS = 6
+MIC_DEVICE_INDEX = None
+MIC_CHANNELS = 1
 
 client = OpenAI()
 
@@ -56,6 +56,16 @@ def check_api_key():
     key = os.getenv("OPENAI_API_KEY")
     if not key:
         print('OPENAI_API_KEY가 없습니다. export OPENAI_API_KEY="sk-..."')
+        return False
+    # 예시 문구를 그대로 붙여넣는 실수가 잦다. 그냥 두면 나중에 STT 호출에서
+    # UnicodeEncodeError 로 터져서 원인이 한눈에 안 보인다. 여기서 먼저 잡는다.
+    if not key.isascii():
+        print("OPENAI_API_KEY 에 한글 등 ASCII 가 아닌 문자가 있습니다.")
+        print("예시(sk-실제키)를 그대로 넣으신 것 같습니다. 발급받은 진짜 키를 넣으세요.")
+        print("키 발급: https://platform.openai.com/api-keys")
+        return False
+    if len(key) < 40:
+        print(f"OPENAI_API_KEY 가 너무 짧습니다({len(key)}자). 실제 키는 보통 50자를 넘습니다.")
         return False
     return True
 

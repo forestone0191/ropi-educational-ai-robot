@@ -254,7 +254,7 @@ $env:ROPI_IP = "192.168.0.64"
 ```
 
 ```powershell
-$env:OPENAI_API_KEY = "선생님께_받은_키"
+$env:OPENAI_API_KEY = "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"
 ```
 
 > **이 두 줄은 PowerShell 창을 닫으면 사라집니다.** 새로 열면 다시 쳐야 합니다.

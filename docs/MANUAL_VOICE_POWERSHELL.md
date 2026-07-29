@@ -45,57 +45,135 @@ python --version
 
 `Python 3.11.x` 같은 게 나오면 **2단계로 가세요.**
 
-<details>
-<summary>아무것도 안 나오거나 Microsoft Store가 열리면 (눌러서 펼치기)</summary>
+### 없으면 설치
 
-파이썬이 없는 겁니다. 둘 중 하나로 설치하세요.
-
-**방법 A — 명령으로 (권장)**
+아무것도 안 나오거나 Microsoft Store가 열리면 파이썬이 없는 겁니다.
 
 ```powershell
 winget install Python.Python.3.12
 ```
 
-설치가 끝나면 **PowerShell을 닫고 새로 열어야** 합니다.
+> ### 여기가 제일 중요합니다
+>
+> **PowerShell 창을 닫고 새로 열어야 합니다.**
+>
+> 안 그러면 방금 깔았는데도 계속 "python을 찾을 수 없다"고 나옵니다.
 
-**방법 B — 직접 내려받기**
+새 창에서 다시 확인하세요.
+
+```powershell
+python --version
+```
+
+<details>
+<summary>winget 이 없다고 나오면 (눌러서 펼치기)</summary>
 
 <https://www.python.org/downloads/> 에서 내려받아 설치합니다.
 
-> 설치 화면 맨 아래 **`Add python.exe to PATH`** 를 꼭 체크하세요.
-> 이걸 안 하면 `python` 명령을 못 찾습니다.
+> 설치 화면 **맨 아래 `Add python.exe to PATH` 를 꼭 체크하세요.**
+> 이걸 안 하면 설치는 되는데 `python` 명령을 못 찾습니다.
+> 체크를 놓쳤으면 설치 파일을 다시 실행해서 `Modify` 로 고칠 수 있습니다.
+
+설치 후 **PowerShell을 새로 열어야** 합니다.
 
 </details>
 
 ---
 
-## 2단계 — 코드 받기 (처음 한 번만)
+## 2단계 — git 설치 (처음 한 번만)
+
+먼저 있는지 확인합니다.
+
+```powershell
+git --version
+```
+
+`git version 2.xx.x` 가 나오면 **3단계로 가세요.**
+
+### 없으면 설치
+
+```powershell
+winget install Git.Git
+```
+
+설치가 끝나면 이 글자가 나옵니다.
+
+```
+Successfully installed
+```
+
+> ### 여기가 제일 중요합니다
+>
+> **PowerShell 창을 닫고 새로 열어야 합니다.**
+>
+> 안 그러면 방금 깔았는데도 계속 "git을 찾을 수 없다"고 나옵니다.
+> 새로 열린 창에서만 적용되기 때문입니다.
+
+새 창에서 다시 확인하세요.
+
+```powershell
+git --version
+```
+
+<details>
+<summary>winget 도 없다고 나오면 (눌러서 펼치기)</summary>
+
+윈도우가 오래된 버전입니다. 직접 내려받아 설치하세요.
+
+<https://git-scm.com/download/win>
+
+내려받은 파일을 실행하고, **설정은 전부 기본값으로 두고 `Next` 만 계속 누르면** 됩니다.
+설치 후 **PowerShell을 새로 열어야** 합니다.
+
+</details>
+
+### git 없이 하는 방법도 있습니다
+
+git 설치가 안 되면 이걸 쓰세요. **설치할 게 없습니다.**
+
+1. <https://github.com/forestone0191/ropi-educational-ai-robot> 접속
+2. 초록색 **`Code`** 버튼 → **`Download ZIP`**
+3. 내려받은 파일을 **마우스 오른쪽 → 압축 풀기**
+4. 3단계로 갈 때 폴더 경로가 다릅니다
+
+   ```powershell
+   cd ~\Downloads\ropi-educational-ai-robot-main\laptop
+   ```
+
+   > 폴더 이름 끝에 **`-main`** 이 붙습니다. 이것 때문에 경로를 못 찾는 일이 잦습니다.
+
+이 방법을 쓰면 **아래 3단계는 건너뛰고 4단계로** 가세요.
+
+---
+
+## 3단계 — 코드 받기 (처음 한 번만)
 
 > **깃허브 계정을 만들 필요 없습니다.** 공개된 코드는 누구나 그냥 받을 수 있습니다.
 > 로그인 화면도 안 뜹니다. 계정이 필요한 건 코드를 **올릴** 때뿐입니다.
 
 ```powershell
 cd ~
+```
+
+```powershell
 git clone https://github.com/forestone0191/ropi-educational-ai-robot.git
+```
+
+```powershell
 cd ropi-educational-ai-robot\laptop
 ```
 
-<details>
-<summary>git이 없다고 나오면</summary>
+파일 목록을 확인해 봅시다.
 
 ```powershell
-winget install Git.Git
+ls
 ```
 
-설치 후 PowerShell을 새로 열고 다시 하세요.
-
-**또는** GitHub 페이지에서 `Code` → `Download ZIP` 으로 내려받아 압축을 풀어도 됩니다.
-
-</details>
+`ropi_voice_ai_client.py` 가 보이면 성공입니다.
 
 ---
 
-## 3단계 — 필요한 프로그램 설치 (처음 한 번만)
+## 4단계 — 필요한 프로그램 설치 (처음 한 번만)
 
 `laptop` 폴더 안에서 실행합니다.
 
@@ -114,7 +192,7 @@ python -m pip install -r requirements.txt
 
 ---
 
-## 4단계 — 마이크 확인
+## 5단계 — 마이크 확인
 
 ```powershell
 python list_audio_devices.py
@@ -127,7 +205,7 @@ python list_audio_devices.py
 
 ---
 
-## 5단계 — 로봇 서버 켜기
+## 6단계 — 로봇 서버 켜기
 
 **음성 명령은 로봇 쪽에서 서버가 돌고 있어야 작동합니다.**
 
@@ -165,7 +243,7 @@ Uvicorn running on http://0.0.0.0:8000
 
 ---
 
-## 6단계 — 음성 AI 실행
+## 7단계 — 음성 AI 실행
 
 **처음 열었던 PowerShell 창**(로봇에 접속하지 않은 창)으로 돌아옵니다.
 
@@ -187,6 +265,12 @@ $env:OPENAI_API_KEY = "선생님께_받은_키"
 ```powershell
 cd ~\ropi-educational-ai-robot\laptop
 ```
+
+> **ZIP으로 받았으면 경로가 다릅니다.** 폴더 이름 끝에 `-main` 이 붙습니다.
+>
+> ```powershell
+> cd ~\Downloads\ropi-educational-ai-robot-main\laptop
+> ```
 
 ```powershell
 python ropi_voice_ai_client.py
@@ -228,6 +312,22 @@ PowerShell 창을 닫아도 값이 남게 하는 방법입니다. **한 번만 �
 
 ## 안 될 때
 
+### 빨간 글씨가 엄청 뜨면서 "git을 찾을 수 없다"고 나와요
+
+```
+git : 'git' 용어가 cmdlet, 함수, 스크립트 파일 또는 실행할 수 있는
+프로그램 이름으로 인식되지 않습니다.
+```
+
+**PowerShell은 오류를 길게 뱉지만 원인은 첫 줄에 있습니다.** 둘 중 하나입니다.
+
+1. **git이 안 깔렸다** → 2단계로 가서 설치하세요.
+2. **깔았는데 창을 새로 안 열었다** → **PowerShell을 닫고 새로 여세요.** 이게 제일 흔합니다.
+
+`python`, `pip` 도 똑같습니다. **"방금 깔았는데 못 찾는다" = 창을 새로 열면 됩니다.**
+
+git 설치가 안 되면 2단계의 **"git 없이 하는 방법"**(ZIP 내려받기)을 쓰세요.
+
 ### "OPENAI_API_KEY가 없습니다"
 
 ```powershell
@@ -245,7 +345,7 @@ $env:OPENAI_API_KEY = "키"
 
 세 가지를 확인하세요.
 
-1. **5단계 서버 창이 아직 열려 있나요?** 닫으면 꺼집니다.
+1. **6단계 서버 창이 아직 열려 있나요?** 닫으면 꺼집니다.
 2. **`$env:ROPI_IP` 가 내 로봇 주소인가요?**
 3. **노트북과 로봇이 같은 와이파이인가요?**
 
@@ -265,7 +365,7 @@ curl http://192.168.0.64:8000/status
 ModuleNotFoundError: No module named 'adafruit_servokit'
 ```
 
-**`source venv/bin/activate` 를 빼먹은 겁니다.** 5단계를 처음부터 다시 하세요.
+**`source venv/bin/activate` 를 빼먹은 겁니다.** 6단계를 처음부터 다시 하세요.
 
 ### 마이크가 안 잡혀요
 
@@ -327,4 +427,4 @@ python check_openai.py
 마이크 권한, 서버 켜기, 환경변수 — 2시간 수업에 이걸 다 넣으면 조종할 시간이 없습니다.
 
 **노트북에 미리 설치해두고 오시는 걸 권합니다.**
-그러면 학생은 5단계(서버 켜기)와 6단계(실행)만 하면 됩니다.
+그러면 학생은 6단계(서버 켜기)와 7단계(실행)만 하면 됩니다.
